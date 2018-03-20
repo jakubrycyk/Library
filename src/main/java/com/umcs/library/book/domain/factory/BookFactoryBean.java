@@ -1,5 +1,6 @@
-package com.umcs.library.book.domain;
+package com.umcs.library.book.domain.factory;
 
+import com.umcs.library.book.domain.Book;
 import lombok.Setter;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.util.Assert;

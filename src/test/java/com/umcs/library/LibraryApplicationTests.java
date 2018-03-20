@@ -6,7 +6,6 @@ import com.umcs.library.book.service.BookService;
 import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 
 import org.mockito.Mockito;
@@ -27,14 +26,13 @@ import static org.mockito.Mockito.mock;
 public class LibraryApplicationTests {
 
     @Autowired
-    BookRepository bookRepository;
-    BookService bookService;
+    private BookRepository bookRepository;
+    private BookService bookService;
 
     @Before
     public void setUp(){
-        bookService = new BookService();
+        bookService = new BookService(bookRepository);
         BookRepository bookRepository = mock(BookRepository.class);
-        bookService.setBookRepository(bookRepository);
         Book b1 = new Book("bookTitle1", "bookAutor1", false, LocalDate.now().minusYears(20));
         Book b2 = new Book("bookTitle2", "bookAutor2", false, LocalDate.now().minusYears(10));
         Mockito.when(bookRepository.findAll()).thenReturn(Arrays.asList(b1, b2));
