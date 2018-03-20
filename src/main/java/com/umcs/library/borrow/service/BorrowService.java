@@ -12,7 +12,8 @@ public class BorrowService {
 
     private BorrowRepository borrowRepository;
 
-    public void setBorrowRepository(BorrowRepository borrowRepository) {
+    @Autowired
+    public BorrowService(BorrowRepository borrowRepository) {
         this.borrowRepository = borrowRepository;
     }
 

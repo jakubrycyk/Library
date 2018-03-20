@@ -2,14 +2,18 @@ package com.umcs.library.person.controller;
 
 import com.umcs.library.person.domain.Person;
 import com.umcs.library.person.service.PersonService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
+@Controller
 public class PersonController {
 
     private PersonService personService;
 
-    public void setPersonService(PersonService personService) {
+    @Autowired
+    public PersonController(PersonService personService) {
         this.personService = personService;
     }
 

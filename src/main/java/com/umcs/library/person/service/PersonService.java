@@ -7,14 +7,17 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
+@Service
 public class PersonService {
 
     private PersonRepository personRepository;
 
-    public void setPersonRepository(PersonRepository personRepository) {
+    @Autowired
+    public PersonService(PersonRepository personRepository) {
         this.personRepository = personRepository;
     }
+
+
 
     public Person findById(int id){
         return personRepository.findById(id);

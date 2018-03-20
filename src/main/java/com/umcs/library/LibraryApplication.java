@@ -7,23 +7,22 @@ import com.umcs.library.borrow.domain.Borrow;
 import com.umcs.library.person.controller.PersonController;
 import com.umcs.library.person.domain.Person;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ImportResource;
-
 
 import java.time.LocalDate;
 
 @Slf4j
 @SpringBootApplication
-@ImportResource("classpath:app-config.xml")
 public class LibraryApplication implements CommandLineRunner{
 
 	PersonController personController;
 	BookController bookController;
 	BorrowController borrowController;
 
+	@Autowired
 	public LibraryApplication(PersonController personController, BookController bookController, BorrowController borrowController) {
 		this.personController = personController;
 		this.bookController = bookController;

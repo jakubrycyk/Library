@@ -3,8 +3,10 @@ package com.umcs.library.book.repository.impl;
 
 import com.umcs.library.book.domain.Book;
 import com.umcs.library.book.repository.BookRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -12,12 +14,13 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
-
+@Repository
 public class BookJDBCTemplateRepository implements BookRepository{
 
     JdbcTemplate jdbcTemplate;
 
-    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+    @Autowired
+    public BookJDBCTemplateRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

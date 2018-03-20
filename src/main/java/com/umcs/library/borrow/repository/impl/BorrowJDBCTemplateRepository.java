@@ -2,20 +2,24 @@ package com.umcs.library.borrow.repository.impl;
 
 import com.umcs.library.borrow.domain.Borrow;
 import com.umcs.library.borrow.repository.BorrowRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-
+@Repository
 public class BorrowJDBCTemplateRepository implements BorrowRepository{
+
 
     JdbcTemplate jdbcTemplate;
 
-    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+    @Autowired
+    public BorrowJDBCTemplateRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

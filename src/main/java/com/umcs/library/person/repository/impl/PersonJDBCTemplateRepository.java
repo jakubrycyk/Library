@@ -15,12 +15,14 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
-
+@Repository
 public class PersonJDBCTemplateRepository implements PersonRepository {
+
 
     JdbcTemplate jdbcTemplate;
 
-    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+    @Autowired
+    public PersonJDBCTemplateRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

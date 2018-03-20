@@ -2,14 +2,18 @@ package com.umcs.library.borrow.controller;
 
 import com.umcs.library.borrow.domain.Borrow;
 import com.umcs.library.borrow.service.BorrowService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
+@Controller
 public class BorrowController {
 
     private BorrowService borrowService;
 
-    public void setBorrowService(BorrowService borrowService) {
+    @Autowired
+    public BorrowController(BorrowService borrowService) {
         this.borrowService = borrowService;
     }
 
