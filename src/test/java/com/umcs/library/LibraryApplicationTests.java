@@ -11,10 +11,11 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.ImportResource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.Arrays;
 
 import static org.mockito.Mockito.mock;
@@ -22,21 +23,21 @@ import static org.mockito.Mockito.mock;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@ImportResource("classpath:test-config.xml")
 public class LibraryApplicationTests {
+
+    private BookService bookService;
 
     @Autowired
     private BookRepository bookRepository;
-    private BookService bookService;
 
     @Before
     public void setUp(){
         bookService = new BookService(bookRepository);
         BookRepository bookRepository = mock(BookRepository.class);
-        Book b1 = new Book("bookTitle1", "bookAutor1", false, LocalDate.now().minusYears(20));
-        Book b2 = new Book("bookTitle2", "bookAutor2", false, LocalDate.now().minusYears(10));
+        Book b1 = new Book("bookTitle1", "bookAutor1", false, Date.from(LocalDate.now().minusWeeks(3).atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        Book b2 = new Book("bookTitle2", "bookAutor2", false, Date.from(LocalDate.now().minusWeeks(6).atStartOfDay(ZoneId.systemDefault()).toInstant()));
         Mockito.when(bookRepository.findAll()).thenReturn(Arrays.asList(b1, b2));
-        Mockito.when(bookRepository.findById(1)).thenReturn(b1);
+        Mockito.when(bookRepository.findById(1)).thenReturn(java.util.Optional.ofNullable(b1));
     }
 
     @Test
@@ -56,7 +57,7 @@ public class LibraryApplicationTests {
 
     @Test
     public void shoudReturnEqualBook(){
-        Assert.assertEquals("bookTitle1", bookService.findById(1).getTitle());
+        Assert.assertEquals("bookTitle1", bookService.findById(1).get().getTitle());
     }
 
 }

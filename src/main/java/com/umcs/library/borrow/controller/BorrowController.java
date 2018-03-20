@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class BorrowController {
@@ -17,7 +18,7 @@ public class BorrowController {
         this.borrowService = borrowService;
     }
 
-    public Borrow findById(int id){
+    public Optional<Borrow> findById(int id){
         return borrowService.findById(id);
     }
 
@@ -25,19 +26,19 @@ public class BorrowController {
         return borrowService.findAll();
     }
 
-    public int insert(Borrow borrow) {
-        return borrowService.insert(borrow);
+    public void insert(Borrow borrow) {
+        borrowService.insert(borrow);
     }
 
-    public int deleteById(int id) {
-        return borrowService.deleteById(id);
+    public void deleteById(int id) {
+        borrowService.deleteById(id);
     }
 
-    public int update(Borrow borrow) {
-        return borrowService.update(borrow);
+    public void update(Borrow borrow) {
+         borrowService.update(borrow);
     }
 
-    public int count() {
+    public long count() {
         return borrowService.count();
     }
 }

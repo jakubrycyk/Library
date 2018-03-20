@@ -1,56 +1,64 @@
 package com.umcs.library.borrow.domain;
 
+import com.umcs.library.book.domain.Book;
+import com.umcs.library.person.domain.Person;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
+import javax.validation.constraints.Past;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 
-import static java.time.temporal.ChronoUnit.DAYS;
+
 import static java.time.temporal.ChronoUnit.WEEKS;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @ToString
+@Entity
 public class Borrow {
-    private Integer id;
-    private Integer personId;
-    private Integer bookId;
-    private LocalDate borrowDate;
-    private LocalDate returnDate;
 
-    public Borrow(Integer personId, Integer bookId, LocalDate borrowDate) {
-        this.personId = personId;
-        this.bookId = bookId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
+    private Integer id;
+
+    @NotNull
+    @ManyToOne
+    private Person person;
+
+    @NotNull
+    @ManyToOne
+    private Book book;
+
+    @Temporal(TemporalType.DATE)
+    @Past
+    private Date borrowDate;
+
+    @Temporal(TemporalType.DATE)
+    @Null
+    private Date returnDate;
+
+    public Borrow(Person person, Book book, Date borrowDate) {
+        this.person = person;
+        this.book = book;
         this.borrowDate = borrowDate;
     }
 
-    public void fillFieldsFromResultSet(ResultSet rs) throws SQLException {
-        this.id = rs.getInt("Id");
-        this.personId = rs.getInt("PersonId");
-        this.bookId = rs.getInt("BookId");
-        Date borrowDate = rs.getDate("BorrowDate");
-        if (null != borrowDate) {
-            this.borrowDate = borrowDate.toLocalDate();
-        }
-        Date returnDate = rs.getDate("ReturnDate");
-        if (null != returnDate) {
-            this.returnDate = returnDate.toLocalDate();
-        }
-    }
-
     public boolean isLongerThanOneWeek(){
-        return returnDate.isAfter(borrowDate.plusWeeks(1));
+        return LocalDate.now().isAfter(borrowDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().plusDays(14));
     }
 
     public double getPenalty(){
         if(isLongerThanOneWeek()){
-            return WEEKS.between(borrowDate, returnDate) * 2;
+            return WEEKS.between(borrowDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), LocalDate.now()) * 2;
         }
         return 0;
     }

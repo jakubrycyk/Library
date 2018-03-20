@@ -5,39 +5,40 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.LocalDate;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @ToString
+@Entity
 public class Book {
-    private Integer id;
-    private String title;
-    private String author;
-    private Boolean isLost;
-    private LocalDate addDate;
 
-    public Book(String title, String author, Boolean isLost, LocalDate addDate) {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
+    private Integer id;
+
+    @NotNull
+    private String title;
+
+    @NotNull
+    private String author;
+
+    @NotNull
+    @Column(columnDefinition = "boolean default false")
+    private Boolean isLost;
+
+    @NotNull
+    @Temporal(TemporalType.DATE)
+    private Date addDate;
+
+    public Book(@NotNull String title, @NotNull String author, @NotNull Boolean isLost, @NotNull Date addDate) {
         this.title = title;
         this.author = author;
         this.isLost = isLost;
         this.addDate = addDate;
     }
-
-    public void fillFieldsFromResultSet(ResultSet rs) throws SQLException {
-        this.id = rs.getInt("Id");
-        this.title = rs.getString("Title");
-        this.author = rs.getString("Author");
-        this.isLost = rs.getBoolean("IsLost");
-        Date addDate = rs.getDate("AddDate");
-        if (null != addDate) {
-            this.addDate = addDate.toLocalDate();
-        }
-    }
-
-
 }

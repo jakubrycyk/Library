@@ -5,39 +5,42 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.LocalDate;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import java.util.Date;
+
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Entity
 public class Person {
-    private Integer id;
-    private String firstName;
-    private String lastName;
-    private LocalDate dob;
-    private LocalDate createDate;
 
-    public Person(String firstName, String lastName, LocalDate dob) {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
+    private Integer id;
+
+    @NotNull
+    private String firstName;
+
+    @NotNull
+    private String lastName;
+
+    @Temporal(TemporalType.DATE)
+    @Past
+    private Date dob;
+
+    @Temporal(TemporalType.DATE)
+    @Past
+    private Date createDate;
+
+    public Person(@NotNull String firstName, @NotNull String lastName, @NotNull Date dob) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dob = dob;
     }
 
-    public void fillFieldsFromResultSet(ResultSet rs) throws SQLException {
-        this.id = rs.getInt("Id");
-        this.firstName = rs.getString("FirstName");
-        this.lastName = rs.getString("LastName");
-        Date dob = rs.getDate("DOB");
-        if (null != dob) {
-            this.dob = dob.toLocalDate();
-        }
-        Date createDate = rs.getDate("CreateDate");
-        if (null != createDate) {
-            this.createDate = createDate.toLocalDate();
-        }
-    }
 }

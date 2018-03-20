@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class BookService {
@@ -17,35 +19,37 @@ public class BookService {
         this.bookRepository = bookRepository;
     }
 
-    public Book findById(int id){
+    public Optional<Book> findById(int id){
         return bookRepository.findById(id);
     }
 
     public List<Book> findAll() {
-        return bookRepository.findAll();
+        return (List<Book>) bookRepository.findAll();
     }
 
-    public int insert(Book book) {
-        return bookRepository.insert(book);
+    public void insert(Book book) {
+        bookRepository.save(book);
     }
 
-    public int deleteById(int id) {
-        return bookRepository.deleteById(id);
+    public void update(Book book) {
+        bookRepository.save(book);
     }
 
-    public int update(Book book) {
-        return bookRepository.update(book);
+    public void deleteById(int id) {
+       bookRepository.deleteById(id);
     }
 
-    public int count() {
+    public long count() {
         return bookRepository.count();
     }
 
-    public int getBorrowedCount(){
-        return bookRepository.getBorrowedCount();
+    public long getBorrowedCount(){
+        List<Book> books = (List<Book>) bookRepository.findAll();
+        books = books.stream().filter(book -> !book.getIsLost()).collect(Collectors.toList());
+        return books.size();
     }
 
-    public int getNonBorrowedCount(){
+    public long getNonBorrowedCount(){
         return count() - getBorrowedCount();
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class PersonController {
@@ -17,7 +18,7 @@ public class PersonController {
         this.personService = personService;
     }
 
-    public Person findById(int id){
+    public Optional<Person> findById(int id){
         return personService.findById(id);
     }
 
@@ -25,19 +26,19 @@ public class PersonController {
         return personService.findAll();
     }
 
-    public int insert(Person person) {
-        return personService.insert(person);
+    public void insert(Person person) {
+        personService.insert(person);
     }
 
-    public int deleteById(int id) {
-        return personService.deleteById(id);
+    public void deleteById(int id) {
+        personService.deleteById(id);
     }
 
-    public int update(Person person) {
-        return personService.update(person);
+    public void update(Person person) {
+        personService.update(person);
     }
 
-    public int count() {
+    public long count() {
         return personService.count();
     }
 }

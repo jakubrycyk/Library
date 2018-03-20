@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BorrowService {
@@ -17,27 +18,27 @@ public class BorrowService {
         this.borrowRepository = borrowRepository;
     }
 
-    public Borrow findById(int id){
+    public Optional<Borrow> findById(int id){
         return borrowRepository.findById(id);
     }
 
     public List<Borrow> findAll() {
-        return borrowRepository.findAll();
+        return (List<Borrow>) borrowRepository.findAll();
     }
 
-    public int insert(Borrow borrow) {
-        return borrowRepository.insert(borrow);
+    public void insert(Borrow borrow) {
+        borrowRepository.save(borrow);
     }
 
-    public int deleteById(int id) {
-        return borrowRepository.deleteById(id);
+    public void deleteById(int id) {
+        borrowRepository.deleteById(id);
     }
 
-    public int update(Borrow borrow) {
-        return borrowRepository.update(borrow);
+    public void update(Borrow borrow) {
+        borrowRepository.save(borrow);
     }
 
-    public int count() {
+    public long count() {
         return borrowRepository.count();
     }
 }

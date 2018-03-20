@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class BookController {
@@ -17,7 +18,7 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    public Book findById(int id){
+    public Optional<Book> findById(int id){
         return bookService.findById(id);
     }
 
@@ -25,27 +26,27 @@ public class BookController {
         return bookService.findAll();
     }
 
-    public int insert(Book book) {
-        return bookService.insert(book);
+    public void insert(Book book) {
+         bookService.insert(book);
     }
 
-    public int deleteById(int id) {
-        return bookService.deleteById(id);
+    public void deleteById(int id) {
+         bookService.deleteById(id);
     }
 
-    public int update(Book book) {
-        return bookService.update(book);
+    public void update(Book book) {
+        bookService.update(book);
     }
 
-    public int count() {
+    public long count() {
         return bookService.count();
     }
 
-    public int getBorrowedCount(){
+    public long getBorrowedCount(){
         return bookService.getBorrowedCount();
     }
 
-    public int getNonBorrowedCount(){
+    public long getNonBorrowedCount(){
         return bookService.getNonBorrowedCount();
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PersonService {
@@ -18,28 +19,27 @@ public class PersonService {
     }
 
 
-
-    public Person findById(int id){
+    public Optional<Person> findById(int id){
         return personRepository.findById(id);
     }
 
     public List<Person> findAll() {
-        return personRepository.findAll();
+        return (List<Person>) personRepository.findAll();
     }
 
-    public int insert(Person person) {
-        return personRepository.insert(person);
+    public void insert(Person person) {
+        personRepository.save(person);
     }
 
-    public int deleteById(int id) {
-        return personRepository.deleteById(id);
+    public void deleteById(int id) {
+        personRepository.deleteById(id);
     }
 
-    public int update(Person person) {
-        return personRepository.update(person);
+    public void update(Person person) {
+        personRepository.save(person);
     }
 
-    public int count() {
+    public long count() {
         return personRepository.count();
     }
 }

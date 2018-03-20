@@ -1,19 +1,12 @@
 package com.umcs.library.borrow.repository;
 
 import com.umcs.library.borrow.domain.Borrow;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface BorrowRepository {
-    Borrow findById(int id);
+@Repository
+public interface BorrowRepository extends CrudRepository<Borrow, Integer>{
 
-    List<Borrow> findAll();
-
-    int deleteById(int id);
-
-    int insert(Borrow borrow);
-
-    int update(Borrow borrow);
-
-    int count();
 }
